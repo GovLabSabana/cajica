@@ -9,7 +9,6 @@ from livekit import rtc
 from livekit.agents import (
     AgentSession,
     Agent,
-    RoomOptions,
     JobContext,
     WorkerOptions,
     cli,
@@ -832,7 +831,6 @@ async def entrypoint(ctx: JobContext):
         await session.start(
             room=ctx.room,
             agent=agent,
-            room_options=RoomOptions(close_on_disconnect=True)
         )
 
         # Generar saludo inicial
