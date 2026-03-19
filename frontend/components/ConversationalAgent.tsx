@@ -199,11 +199,6 @@ const ConversationalAgent: React.FC<ConversationalAgentProps> = ({ onResponse, o
               },
               disconnectOnPageLeave: true,
               stopLocalTrackOnUnpublish: true,
-              // Forzar TURN relay para evitar ICE failures en redes restrictivas.
-              // Garantiza que el audio del usuario llegue al agente en ambas direcciones.
-              rtcConfig: {
-                iceTransportPolicy: 'relay',
-              },
               reconnectPolicy: {
                 nextRetryDelayInMs: (context) => {
                   return Math.min(1000 * Math.pow(2, context.retryCount), 30000);

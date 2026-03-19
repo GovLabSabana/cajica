@@ -828,9 +828,16 @@ async def entrypoint(ctx: JobContext):
             llm=model,
             vad=vad,
         )
+        # Esperar a que el participante (usuario) se una a la sala
+        # y suscribirse explícitamente a su audio.
+        # Sin esto, el agente no sabe a quién escuchar (SOURCE_UNKNOWN).
+        participant = await ctx.wait_for_participant()
+        logger.info(f"Participante conectado: {participant.identity}")
+
         await session.start(
             room=ctx.room,
             agent=agent,
+            participant=participant,
         )
 
         # Generar saludo inicial
