@@ -833,7 +833,7 @@ async def entrypoint(ctx: JobContext):
         await session.start(
             room=ctx.room,
             agent=agent,
-            room_input_options=RoomInputOptions(close_on_disconnect=False)
+            room_input_options=RoomInputOptions(close_on_disconnect=True)
         )
 
         # Generar saludo inicial
@@ -848,6 +848,11 @@ async def entrypoint(ctx: JobContext):
         )
 
         logger.info("Asistente virtual de Cajicá listo para atender")
+
+        # Mantener el proceso vivo mientras la sala esté activa.
+        # Sin esto, el entrypoint retorna y Railway cierra el job/sala
+        # inmediatamente después del saludo, provocando desconexiones.
+        await asyncio.sleep(float('inf'))
 
     except Exception as e:
         logger.error(f"Error in entrypoint: {e}", exc_info=True)
