@@ -197,13 +197,15 @@ const ConversationalAgent: React.FC<ConversationalAgentProps> = ({ onResponse, o
               publishDefaults: {
                 videoSimulcastLayers: []
               },
-              // Timeouts más largos y configuraciones de estabilidad
               disconnectOnPageLeave: true,
               stopLocalTrackOnUnpublish: true,
-              // Configuraciones para evitar desconexiones
+              // Forzar TURN relay para evitar ICE failures en redes restrictivas.
+              // Garantiza que el audio del usuario llegue al agente en ambas direcciones.
+              rtcConfig: {
+                iceTransportPolicy: 'relay',
+              },
               reconnectPolicy: {
                 nextRetryDelayInMs: (context) => {
-                  // Incrementar delay progresivamente
                   return Math.min(1000 * Math.pow(2, context.retryCount), 30000);
                 }
               }
