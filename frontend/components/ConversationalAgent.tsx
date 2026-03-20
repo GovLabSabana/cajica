@@ -205,6 +205,13 @@ const ConversationalAgent: React.FC<ConversationalAgentProps> = ({ onResponse, o
                 }
               }
             }}
+            connectOptions={{
+              // Forzar TURN relay: usa servidores TURN de LiveKit Cloud (TCP/443)
+              // que funcionan en redes corporativas con UDP bloqueado.
+              rtcConfig: {
+                iceTransportPolicy: 'relay' as RTCIceTransportPolicy,
+              },
+            }}
             className="flex flex-col items-center space-y-6"
           >
             <ConversationCapture
